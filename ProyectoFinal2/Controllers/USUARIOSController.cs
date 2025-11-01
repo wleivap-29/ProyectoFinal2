@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProyectoFinal2.Models;
+using System.Data.SqlClient;
 
 namespace ProyectoFinal2.Controllers
 {
@@ -21,165 +22,55 @@ namespace ProyectoFinal2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NOMBRECOMPLETO,USUARIO,CONTRASENA")] USUARIOS uSUARIOS)
-        {
-            if (ModelState.IsValid)
-            {
-                if (db.USUARIOS.Any(u => u.USUARIO == uSUARIOS.USUARIO))
-                {
-                    ModelState.AddModelError("", "El nombre de usuario ya está en uso.");
-                    return View("Login", uSUARIOS);
-                }
-
-                db.USUARIOS.Add(uSUARIOS);
-                db.SaveChanges();
-
-                ViewBag.RegistroExitoso = true;
-                return View("Login");
-            }
-            return View(uSUARIOS);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(string usuario, string nuevaContrasena)
-        {
-            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(nuevaContrasena))
-            {
-                ViewBag.ErrorReset = "Debes completar ambos campos.";
-                return View("Login");
-            }
-            var user = db.USUARIOS.SingleOrDefault(u => u.USUARIO == usuario);
-            if (user == null)
-            {
-                ViewBag.ErrorReset = "El usuario no existe.";
-                return View("Login");
-            }
-            user.CONTRASENA = nuevaContrasena; 
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
-            ViewBag.ResetOk = true;
-            return View("Login");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(string usuario, string contrasena)
         {
-            var usuarioBD = db.USUARIOS.FirstOrDefault(u => u.USUARIO == usuario && u.CONTRASENA == contrasena);
-            if (usuarioBD != null)
+            try
             {
-                Session["UsuarioActual"] = usuarioBD;
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ViewBag.Error = "Usuario o contraseña incorrectos";
-                return View();
-            }
-        }
+                // CONEXIÓN DIRECTA CON ADO.NET
+                string connectionString = "Server=tcp:sqlserver-mibank-umg-prg2.database.windows.net,1433;Database=sql-mibank-Proyecto2;User ID=usrproyecto;Password=a123d123*;Encrypt=true;TrustServerCertificate=false;Connection Timeout=30;";
 
-        public ActionResult Index()
-        {
-            return View(db.USUARIOS.ToList());
-        }
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
-        public ActionResult Details(decimal id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            if (uSUARIOS == null)
-            {
-                return HttpNotFound();
-            }
-            return View(uSUARIOS);
-        }
-        public ActionResult Create()
-        {
-            return View();
-        }
+                    // Buscar usuario en la base de datos
+                    string query = "SELECT * FROM USUARIOS WHERE USUARIO = @Usuario AND CONTRASENA = @Contrasena";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Usuario", usuario);
+                        command.Parameters.AddWithValue("@Contrasena", contrasena);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Registrar([Bind(Include = "NombreCompleto,Usuario,Contrasena")] USUARIOS uSUARIOS)
-        {
-            if (ModelState.IsValid)
-            {
-                db.USUARIOS.Add(uSUARIOS);
-                db.SaveChanges();
-                ViewBag.RegistroExitoso = true;
-                return View("Login");
-            }
-            return View(uSUARIOS);
-        }
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Login exitoso
+                                USUARIOS usuarioBD = new USUARIOS
+                                {
+                                    IDUSUARIO = reader.GetInt32(0),
+                                    NOMBRECOMPLETO = reader.GetString(1),
+                                    USUARIO = reader.GetString(2),
+                                    CONTRASENA = reader.GetString(3)
+                                };
 
-        public ActionResult Edit(decimal id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                                Session["UsuarioActual"] = usuarioBD;
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                // Redirigir con mensaje de error
+                                return RedirectToAction("Login", new { error = "Usuario+o+contraseña+incorrectos" });
+                            }
+                        }
+                    }
+                }
             }
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            if (uSUARIOS == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                // Redirigir con mensaje de error detallado
+                string errorMsg = $"Error+de+conexión:+{ex.Message.Replace(" ", "+")}";
+                return RedirectToAction("Login", new { error = errorMsg });
             }
-            return View(uSUARIOS);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDUSUARIO,NOMBRECOMPLETO,USUARIO,CONTRASENA")] USUARIOS uSUARIOS)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(uSUARIOS).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(uSUARIOS);
-        }
-
-        public ActionResult Delete(decimal id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            if (uSUARIOS == null)
-            {
-                return HttpNotFound();
-            }
-            return View(uSUARIOS);
-        }
-
-        public ActionResult CerrarSesion()
-        {
-            Session.Clear();
-            Session.Abandon();
-            return RedirectToAction("Login", "USUARIOS");
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id)
-        {
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            db.USUARIOS.Remove(uSUARIOS);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
