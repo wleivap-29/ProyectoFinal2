@@ -14,12 +14,12 @@ namespace ProyectoFinal2.Models
     
     public partial class ESTADODECUENTA
     {
-        public decimal IDMOVIMIENTO { get; set; }
+        public int IDMOVIMIENTO { get; set; }
         public Nullable<System.DateTime> FECHAMOVIMIENTO { get; set; }
         public string TIPOMOVIMIENTO { get; set; }
         public string DESCRIPCION { get; set; }
         public decimal MONTO { get; set; }
-        public Nullable<decimal> REFERENCIAID { get; set; }
-        public Nullable<decimal> SALDOACUMULADO { get; set; }
+        public Nullable<int> REFERENCIAID { get; set; }
+        public decimal SALDOACUMULADO { get; set; }
     }
 }

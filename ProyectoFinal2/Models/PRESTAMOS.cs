@@ -14,24 +14,15 @@ namespace ProyectoFinal2.Models
     
     public partial class PRESTAMOS
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PRESTAMOS()
-        {
-            this.PROYECCIONPAGOS = new HashSet<PROYECCIONPAGOS>();
-        }
-    
-        public decimal IDPRESTAMO { get; set; }
+        public int IDPRESTAMO { get; set; }
         public string ENTIDADFINANCIERA { get; set; }
         public decimal MONTO { get; set; }
-        public byte PLAZOMESES { get; set; }
+        public int PLAZOMESES { get; set; }
         public string TIPODEPAGO { get; set; }
         public decimal TASAINTERES { get; set; }
         public System.DateTime FECHAINICIO { get; set; }
         public System.DateTime FECHAVENCIMIENTO { get; set; }
         public Nullable<decimal> INTERESCALCULADO { get; set; }
         public string ESTADO { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PROYECCIONPAGOS> PROYECCIONPAGOS { get; set; }
     }
 }

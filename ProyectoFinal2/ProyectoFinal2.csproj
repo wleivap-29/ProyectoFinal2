@@ -172,14 +172,29 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BancoModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BancoModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BancoModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BancoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BancoModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BancoModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\CLIENTES.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ESTADODECUENTA.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\INVERSIONES.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -197,13 +212,13 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\PRESTAMOS.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PROYECCIONPAGOS.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USUARIOS.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BancoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -216,6 +231,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\BancoModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BancoModel.edmx</DependentUpon>
+      <LastGenOutput>BancoModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BancoModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BancoModel.edmx</DependentUpon>
+      <LastGenOutput>BancoModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -234,6 +259,14 @@
     </EntityDeploy>
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EntityDeploy Include="Models\BancoModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BancoModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BancoModel.edmx.diagram">
+      <DependentUpon>BancoModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\MibankUMG - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />

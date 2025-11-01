@@ -14,13 +14,11 @@ namespace ProyectoFinal2.Models
     
     public partial class PROYECCIONPAGOS
     {
-        public decimal IDPROYECCION { get; set; }
-        public decimal IDPRESTAMO { get; set; }
-        public byte NUMEROCUOTA { get; set; }
+        public int IDPROYECCION { get; set; }
+        public Nullable<int> IDPRESTAMO { get; set; }
+        public int NUMEROCUOTA { get; set; }
         public System.DateTime FECHAPAGO { get; set; }
         public decimal MONTOPAGO { get; set; }
         public string ESTADOPAGO { get; set; }
-    
-        public virtual PRESTAMOS PRESTAMOS { get; set; }
     }
 }

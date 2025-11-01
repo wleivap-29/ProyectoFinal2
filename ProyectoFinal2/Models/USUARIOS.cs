@@ -14,7 +14,7 @@ namespace ProyectoFinal2.Models
     
     public partial class USUARIOS
     {
-        public decimal IDUSUARIO { get; set; }
+        public int IDUSUARIO { get; set; }
         public string NOMBRECOMPLETO { get; set; }
         public string USUARIO { get; set; }
         public string CONTRASENA { get; set; }

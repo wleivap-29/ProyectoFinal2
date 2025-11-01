@@ -14,16 +14,14 @@ namespace ProyectoFinal2.Models
     
     public partial class INVERSIONES
     {
-        public decimal IDINVERSION { get; set; }
-        public decimal IDCLIENTE { get; set; }
+        public int IDINVERSION { get; set; }
+        public Nullable<int> IDCLIENTE { get; set; }
         public decimal MONTO { get; set; }
-        public byte PLAZOMESES { get; set; }
+        public int PLAZOMESES { get; set; }
         public string TIPODEPAGO { get; set; }
         public System.DateTime FECHAINICIO { get; set; }
         public System.DateTime FECHAVENCIMIENTO { get; set; }
         public Nullable<decimal> INTERESESGANADOS { get; set; }
         public string ESTADO { get; set; }
-    
-        public virtual CLIENTES CLIENTES { get; set; }
     }
 }
