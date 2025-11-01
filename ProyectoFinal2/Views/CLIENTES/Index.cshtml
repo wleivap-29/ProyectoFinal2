@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ProyectoFinal2.Models.CLIENTES>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRECOMPLETO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DPI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TELEFONO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CORREO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DIRECCION)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRECOMPLETO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DPI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TELEFONO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CORREO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DIRECCION)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IDCLIENTE }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IDCLIENTE }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IDCLIENTE })
+        </td>
+    </tr>
+}
+
+</table>

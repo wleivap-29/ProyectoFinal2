@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="54d0dee715fe492da4b7bbd14d8cec48" Name="Diagram1" ZoomLevel="70">
+        <EntityTypeShape EntityType="Model.CLIENTES" Width="1.875" PointX="2.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ESTADODECUENTA" Width="2" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.INVERSIONES" Width="2" PointX="4.625" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.PRESTAMOS" Width="2.25" PointX="0.5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.PROYECCIONPAGOS" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.USUARIOS" Width="2.75" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_INVERSION_CLIENTE" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_PROYECCION_PRESTAMO" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

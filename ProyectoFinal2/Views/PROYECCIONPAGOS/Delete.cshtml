@@ -1,0 +1,64 @@
+﻿@model ProyectoFinal2.Models.PROYECCIONPAGOS
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PROYECCIONPAGOS</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NUMEROCUOTA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NUMEROCUOTA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FECHAPAGO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHAPAGO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MONTOPAGO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MONTOPAGO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ESTADOPAGO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ESTADOPAGO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRESTAMOS.ENTIDADFINANCIERA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRESTAMOS.ENTIDADFINANCIERA)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

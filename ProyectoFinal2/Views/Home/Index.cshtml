@@ -1,0 +1,1356 @@
+﻿@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de gestión banario</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+    :root {
+        --clr-main: #020618;
+        --clr-main-light: #90A1B9;
+        --clr-white: #ececec;
+        --clr-gray: #e2e2e2;
+        --clr-red: #45556C;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Rubik', sans-serif;
+    }
+
+    .ui-datepicker-trigger {
+        display: none !important;
+    }
+
+    .swal2-popup {
+        border-radius: 20px;
+    }
+
+    .swal2-title.swal2-title {
+        color: var(--clr-main);
+    }
+
+    .swal2-confirm.custom-class {
+        background-color: var(--clr-main);
+        color: #ffffff;
+        border-radius: 0.6rem;
+    }
+
+    .swal2-cancel.custom-class {
+        background-color: #cfcece;
+        color: var(--clr-main);
+        border-radius: 0.6rem;
+    }
+
+    .swal2-confirm.custom-class:focus {
+        box-shadow: 0 0 0 2px var(--clr-main-light);
+        border-color: var(--clr-main-light);
+        outline: none;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, a, input, textarea {
+        margin: 0;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        background-color: var(--clr-main);
+    }
+
+    aside {
+        padding: 2rem;
+        padding-right: 0;
+        color: var(--clr-white);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .logo {
+        font-weight: 400;
+        font-size: 1.9rem;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 2.0rem;
+    }
+
+    .boton-menu {
+        background-color: transparent;
+        border: 0;
+        color: var(--clr-white);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 600;
+        padding: 1rem;
+        font-size: .85rem;
+        width: 100%;
+    }
+
+        .boton-menu.active {
+            background-color: var(--clr-white);
+            color: var(--clr-main);
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+            position: relative;
+        }
+
+        .boton-menu.boton-menu.active::before {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 2rem;
+            bottom: 100%;
+            right: 0;
+            background-color: transparent;
+            border-bottom-right-radius: .5rem;
+            box-shadow: 0 1rem 0 var(--clr-white);
+        }
+
+        .boton-menu.boton-menu.active::after {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 2rem;
+            top: 100%;
+            right: 0;
+            background-color: transparent;
+            border-top-right-radius: .5rem;
+            box-shadow: 0 -1rem 0 var(--clr-white);
+        }
+
+    .boton-carrito {
+        margin-top: 2rem;
+    }
+
+    .texto-footer {
+        color: var(--clr-main-light);
+        font-size: .85rem;
+    }
+
+    main {
+        background-color: var(--clr-white);
+        margin: 1rem;
+        margin-left: 0;
+        border-radius: 2rem;
+        padding: 3rem;
+    }
+
+    .titulo-principal {
+        color: var(--clr-main);
+        margin-bottom: 2rem;
+    }
+
+    .header-mobile {
+        display: none;
+    }
+
+    .close-menu {
+        display: none;
+    }
+
+    .disabled {
+        display: none;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    th, td {
+        text-align: left; 
+        padding: 8px 12px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        border-bottom: 2px solid #ccc;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+        form label {
+            font-weight: 600;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="number"],
+        form select {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 14px;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+            form input:focus,
+            form select:focus {
+                outline: none;
+                border-color: #62748E;
+                box-shadow: 0 0 4px rgba(98, 116, 142, 0.5);
+            }
+
+    button,
+    .btn {
+        background-color: #314158;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    h3 {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+
+    .contenedor-productos {
+        padding-top: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 20px;
+    }
+
+    .contenedor-productos hr {
+        margin: 25px 0;
+
+    }
+
+    #view-inversiones {
+        padding: 15px 20px;
+    }
+
+    /* === SWEET ALERT === */
+    .swal2-styled.swal2-confirm {
+        background-color: #020618 !important; 
+        border-radius: 6px !important;
+    }
+
+    .swal2-styled.swal2-cancel {
+        border-radius: 6px !important;
+    }
+
+    /* COLUMNAS DE LOS BOTONES DE ACCIÓN (eliminar y editar) */
+    .acciones i {
+        font-size: 18px;
+        transition: transform 0.2s;
+    }
+
+        .acciones i:hover {
+            transform: scale(1.1);
+        }
+
+    #formCliente {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 15px;
+        margin-bottom: 25px;
+    }
+
+        #formCliente label {
+            font-weight: 500;
+            font-size: 14px;
+            color: #444;
+        }
+
+        #formCliente input[type="text"],
+        #formCliente input[type="email"],
+        #formCliente input[type="number"] {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 14px;
+            width: 220px; 
+            transition: all 0.3s ease;
+        }
+
+        #formCliente input:focus {
+            border-color: #62748E;
+            box-shadow: 0 0 4px rgba(98, 116, 142, 0.5);
+        }
+
+        #formCliente button {
+            background-color: #314158;
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+    /* === FORMULARIO DE INVERSIONES === */
+    #formInversion {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 15px;
+        margin-bottom: 25px;
+    }
+
+        #formInversion label {
+            font-weight: 500;
+            font-size: 14px;
+            color: #444;
+        }
+
+        #formInversion input,
+        #formInversion select {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 14px;
+            width: 220px;
+            transition: all 0.3s ease;
+        }
+
+            #formInversion input:focus,
+            #formInversion select:focus {
+                border-color: #62748E;
+                box-shadow: 0 0 4px rgba(98, 116, 142, 0.5);
+            }
+
+        #formInversion button {
+            background-color: #314158;
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+    h3 {
+        margin-top: 35px;
+        margin-bottom: 10px;
+        color: #020618;
+    }
+
+    .contenedor-productos hr {
+        margin: 30px 0;
+    }
+
+    /* === TABLAS === */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px 10px;
+        font-weight: 400;
+        color: #333;
+    }
+
+    th {
+        background-color: #f6f6f6;
+        font-weight: 600;
+        border-bottom: 2px solid #ccc;
+    }
+
+    /* === SWEET ALERT === */
+    .swal2-styled.swal2-confirm {
+        background-color: #020618 !important;
+        border-radius: 6px !important;
+    }
+
+    .swal2-styled.swal2-cancel {
+        border-radius: 6px !important;
+    }
+
+    #formCliente label[for="correo"],
+    #formInversion label[for="tipoPago"] {
+        display: block;
+        width: 100%;
+        margin-top: 10px; 
+    }
+
+    .acciones {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+        .acciones button {
+            border: none;
+            border-radius: 6px;
+            padding: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .acciones button i {
+                font-size: 16px;
+                color: white;
+            }
+
+    .acciones {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .acciones div {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .acciones i {
+            color: #fff;
+            font-size: 16px;
+        }
+
+    .btn-editar {
+        background-color: #62748E;
+    }
+
+        .btn-editar:hover {
+            background-color: #7f8da6;
+            transform: scale(1.07);
+        }
+
+    .btn-eliminar {
+        background-color: #45556C;
+    }
+
+        .btn-eliminar:hover {
+            background-color: #5b6b84;
+            transform: scale(1.07);
+        }
+
+    .btn-proyeccion {
+        background-color: #1D293D;
+    }
+
+        .btn-proyeccion:hover {
+            background-color: #344A6F;
+            transform: scale(1.07);
+        }
+
+    /* === BALANCE GENERAL === */
+    #tablaBalance {
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+        #tablaBalance th {
+            background-color: #f6f6f6;
+            color: #222;
+            border-bottom: 2px solid #ccc;
+            font-weight: 600;
+            padding: 8px 12px;
+        }
+
+        #tablaBalance td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #tablaBalance tr:hover {
+            background-color: #f0f3f9;
+        }
+
+        #tablaBalance td strong {
+            color: #314158;
+        }
+</style>
+<body>
+    <div class="wrapper">
+        <aside>
+            <button class="close-menu" id="close-menu"><i class="bi bi-x"></i></button>
+            <header>
+                <a class="logo" href="" style="color: white;">BIBANK</a>
+            </header>
+            <nav>
+                <ul class="menu">
+                    <li><button id="inversiones" class="boton-menu boton-categoria active"><i class="bi bi-piggy-bank-fill"></i>Módulo de inversiones</button></li>
+                    <li><button id="prestamos" class="boton-menu boton-categoria"><i class="bi bi-cash-stack"></i>Módulo de créditos</button></li>
+                    <li><button id="estadodecuenta" class="boton-menu boton-categoria"><i class="bi bi-wallet-fill"></i>Balance general</button></li>
+                    <li><button id="cerrarsesion" class="boton-menu boton-carrito" type="button"><i class="bi bi-door-closed-fill"></i>Cerrar sesión</button></li>
+                </ul>
+            </nav>
+            <footer>
+                <p class="texto-footer">© 2025 BiBank</p>
+            </footer>
+        </aside>
+
+        <!-- Módulo de inversiones -->
+        <main id="view-inversiones">
+
+            <div class="contenedor-productos">
+                <h2 class="titulo-principal">Plazos fijos e inversiones</h2>
+                @if (TempData["ClienteCreado"] != null)
+                {
+                    <script>Swal.fire('Éxito', '@TempData["ClienteCreado"]', 'success');</script>
+                }
+                @if (TempData["ErrorCliente"] != null)
+                {
+                    <script>Swal.fire('Error', '@TempData["ErrorCliente"]', 'error');</script>
+                }
+
+                <h3>Registrar cliente</h3>
+                <form id="formCliente" method="post" action="@Url.Action("CrearCliente", "CLIENTES")">
+                    @Html.AntiForgeryToken()
+                    <label>Nombre completo:</label>
+                    <input type="text" name="nombreCompleto" required />
+                    <label>DPI:</label>
+                    <input type="text" name="dpi" required />
+                    <label>Teléfono:</label>
+                    <input type="text" name="telefono" />
+                    <br>
+                    <label>Correo:</label>
+                    <input type="email" name="correo" />
+                    <label>Dirección:</label>
+                    <input type="text" name="direccion" />
+                    <button type="submit" class="btn btn-primary">Guardar cliente</button>
+                </form>
+
+                <script>
+                    document.getElementById("formCliente").addEventListener("submit", async function (e) {
+                        e.preventDefault();
+                        const form = e.target;
+                        const fd = new FormData(form);
+                        try {
+                            const res = await fetch(form.action, { method: "POST", body: fd });
+                            const text = await res.text();
+                            const data = JSON.parse(text);
+
+                            if (data.success) {
+                                Swal.fire("Éxito", data.message, "success");
+                                form.reset();
+                            } else {
+                                Swal.fire("Error", data.message, "error");
+                            }
+                        } catch (err) {
+                            Swal.fire("Error", "No se pudo conectar con el servidor.\n" + err.message, "error");
+                        }
+                    });
+                </script>
+
+                <hr />
+
+                <h3>Registrar nueva inversión</h3>
+                @if (TempData["Mensaje"] != null)
+                {
+                    <script>Swal.fire('Éxito', '@TempData["Mensaje"]', 'success');</script>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <script>Swal.fire('Error', '@TempData["Error"]', 'error');</script>
+                }
+
+                <form method="post" action="@Url.Action("CrearInversion", "INVERSIONES")" id="formInversion">
+                    @Html.AntiForgeryToken()
+                    <label>Monto a invertir (mínimo Q500):</label>
+                    <input type="number" name="monto" id="monto" step="0.01" min="500" required />
+                    <label>Plazo en meses:</label>
+                    <select name="plazoMeses" id="plazoMeses" required>
+                        <option value="1" data-tasa="2.25">1 mes (2.25%)</option>
+                        <option value="2" data-tasa="2.25">2 meses (2.25%)</option>
+                        <option value="3" data-tasa="2.50">3 meses (2.50%)</option>
+                        <option value="6" data-tasa="2.75">6 meses (2.75%)</option>
+                        <option value="9" data-tasa="2.75">9 meses (2.75%)</option>
+                        <option value="12" data-tasa="3.00">12 meses (3.00%)</option>
+                    </select>
+                    <label>Tipo de pago:</label>
+                    <select name="tipoPago" required>
+                        <option value="Al vencimiento">Al vencimiento</option>
+                        <option value="Mensual">Mensual</option>
+                    </select>
+                    <p id="resultadoInteres" style="font-weight: bold; margin-top: 10px;"></p>
+                    <button type="submit" class="btn btn-success">Registrar inversión</button>
+                </form>
+
+                <hr />
+
+                <h3>Listado de inversiones registradas</h3>
+                <table id="tablaInversiones" class="table table-striped" style="margin-top:15px; width:100%;">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Cliente</th>
+                            <th>CIF</th>
+                            <th>Monto (Q)</th>
+                            <th>Plazo</th>
+                            <th>Tasa %</th>
+                            <th>Intereses (Q)</th>
+                            <th>Inicio</th>
+                            <th>Vencimiento</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Las filas se llenarán por AJAX -->
+                    </tbody>
+                </table>
+                <script>
+    /* ============================
+       ✅ CARGAR INVERSIONES
+    ============================ */
+    function cargarInversiones() {
+        fetch('@Url.Action("ListarInversiones", "INVERSIONES")')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector("#tablaInversiones tbody");
+                tbody.innerHTML = "";
+
+                if (!Array.isArray(data)) return;
+
+                data.forEach(inv => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${inv.IDINVERSION}</td>
+                        <td>${inv.NOMBRECLIENTE}</td>
+                        <td>${inv.CIF}</td>
+                        <td>Q${inv.MONTO.toFixed(2)}</td>
+                        <td>${inv.PLAZOMESES}</td>
+                        <td>${inv.TASA.toFixed(2)}%</td>
+                        <td>Q${inv.INTERESESGANADOS.toFixed(2)}</td>
+                        <td>${inv.FECHAINICIO}</td>
+                        <td>${inv.FECHAVENCIMIENTO}</td>
+                        <td>${inv.ESTADO}</td>
+                        <td class="acciones">
+                            <div class="btn-editar" title="Editar" data-id="${inv.IDINVERSION}">
+                                <i class="bi bi-pencil-fill editar-inversion"></i>
+                            </div>
+                            <div class="btn-eliminar" title="Eliminar" data-id="${inv.IDINVERSION}">
+                                <i class="bi bi-trash-fill eliminar-inversion"></i>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(err => {
+                console.error("Error al cargar inversiones:", err);
+            });
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarInversiones);
+
+
+    /* ============================
+       ✅ EDITAR INVERSIÓN
+    ============================ */
+    document.addEventListener("click", async (e) => {
+
+        // SOLO cuando clic → editar inversión
+        if (e.target.classList.contains("editar-inversion")) {
+
+            const fila = e.target.closest("tr");
+
+            const id = fila.querySelector("td:nth-child(1)").textContent.trim();
+
+            // MONTO
+            let monto = fila.querySelector("td:nth-child(4)").textContent.replace("Q","").replace(",","").trim();
+
+            // PLAZO
+            let plazoMeses = fila.querySelector("td:nth-child(5)").textContent.trim();
+
+            let estado = fila.querySelector("td:nth-child(10)").textContent.trim();
+
+            Swal.fire({
+                title: "Editar inversión",
+                html: `
+                    <label>Monto (Q):</label>
+                    <input id="sw_monto" class="swal2-input" type="number" step="0.01" value="${monto}">
+
+                    <label>Plazo (meses):</label>
+                    <input id="sw_plazo" class="swal2-input" type="number" value="${plazoMeses}">
+
+                    <label>Estado:</label>
+                    <select id="sw_estado" class="swal2-input">
+                        <option value="Activa" ${estado==="Activa" ? "selected":""}>Activa</option>
+                        <option value="Cerrada" ${estado==="Cerrada" ? "selected":""}>Cerrada</option>
+                    </select>
+                `,
+                confirmButtonText: "Guardar",
+                preConfirm: () => {
+                    return {
+                        id,
+                        monto: parseFloat(document.getElementById("sw_monto").value),
+                        plazoMeses: parseInt(document.getElementById("sw_plazo").value),
+                        tipoPago: "Mensual",
+                        estado: document.getElementById("sw_estado").value
+                    };
+                }
+            }).then(async (r) => {
+                if (!r.value) return;
+
+                const res = await fetch('@Url.Action("EditarInversion", "INVERSIONES")', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(r.value)
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    Swal.fire("Éxito", data.message, "success");
+                    cargarInversiones();
+                } else {
+                    Swal.fire("Error", data.message, "error");
+                }
+            });
+        }
+
+
+        /* ============================
+           ✅ ELIMINAR INVERSIÓN
+           (NO TOCADO — FUNCIONA BIEN)
+        ============================ */
+        if (e.target.classList.contains("eliminar-inversion")) {
+
+            const id = e.target.closest("[data-id]").getAttribute("data-id");
+
+            const confirm = await Swal.fire({
+                title: "¿Eliminar inversión?",
+                text: "Esta acción no se puede deshacer.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            });
+
+            if (confirm.isConfirmed) {
+                try {
+                    const response = await fetch('@Url.Action("EliminarInversion", "INVERSIONES")', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: new URLSearchParams({ id })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        Swal.fire("Eliminada", data.message, "success").then(() => cargarInversiones());
+                    } else {
+                        Swal.fire("Error", data.message, "error");
+                    }
+                } catch (err) {
+                    Swal.fire("Error", "No se pudo conectar con el servidor.\n" + err.message, "error");
+                }
+            }
+        }
+    });
+                </script>
+
+            </div>
+            <script>
+                document.getElementById("formInversion").addEventListener("submit", async function (e) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const fd = new FormData(form);
+
+                    try {
+                        const res = await fetch(form.action, { method: "POST", body: fd });
+                        const text = await res.text();
+                        const data = JSON.parse(text);
+
+                        if (data.success) {
+                            Swal.fire('Éxito', data.message, 'success').then(() => {
+                                cargarInversiones(); // 🔄 Recarga la tabla automáticamente
+                            });
+
+                            form.reset();
+                            document.getElementById("resultadoInteres").textContent = "";
+                        } else {
+                            Swal.fire("Error", data.message, "error");
+                        }
+                    } catch (err) {
+                        Swal.fire("Error", "No se pudo conectar con el servidor.\n" + err.message, "error");
+                    }
+                });
+            </script>
+        </main>
+
+
+        <!-- Módulo préstamos -->
+        <main id="view-prestamos" class="hidden">
+            <div class="contenedor-productos">
+                <h2 class="titulo-principal">Registro de préstamos</h2>
+                <h3>Registrar préstamo</h3>
+
+                <form id="formPrestamo">
+                    @Html.AntiForgeryToken()
+
+                    <label>Entidad Financiera:</label>
+                    <input type="text" name="ENTIDADFINANCIERA" required />
+
+                    <label>Monto:</label>
+                    <input type="number" name="MONTO" required />
+
+                    <label>Plazo (meses):</label>
+                    <input type="number" name="PLAZOMESES" required />
+
+                    <label>Tipo de pago:</label>
+                    <select name="TIPODEPAGO" required>
+                        <option value="Mensual">Mensual</option>
+                        <option value="Final">Al final</option>
+                    </select>
+
+                    <label>Tasa de Interés (%):</label>
+                    <input type="number" step="0.01" name="TASAINTERES" required />
+
+                    <label>Fecha de Inicio:</label>
+                    <input type="date" name="FECHAINICIO" required />
+
+                    <button type="submit" class="btn btn-success">Registrar préstamo</button>
+                </form>
+
+                <hr />
+
+                <h3>Listado de préstamos registrados</h3>
+
+                <table id="tablaPrestamos" class="table table-striped" style="margin-top:15px; width:100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Entidad</th>
+                            <th>Monto</th>
+                            <th>Plazo</th>
+                            <th>Tasa</th>
+                            <th>Inicio</th>
+                            <th>Vencimiento</th>
+                            <th>Interés</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!-- se llena por AJAX -->
+                    </tbody>
+                </table>
+
+
+            </div>
+        </main>
+
+
+        <!-- Módulo estado de cuenta -->
+        <main id="view-balance" class="hidden">
+            <h2 class="titulo-principal">Estado de cuenta y balance</h2>
+            <div class="contenedor-productos">
+                <table id="tablaBalance" class="table" style="width:100%;border-collapse:collapse;margin-top:10px">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left;padding:8px">#</th>
+                            <th style="text-align:left;padding:8px">Fecha</th>
+                            <th style="text-align:left;padding:8px">Descripción</th>
+                            <th style="text-align:left;padding:8px">Aut</th>
+                            <th style="text-align:left;padding:8px">Ingresos (Q)</th>
+                            <th style="text-align:left;padding:8px">Egresos (Q)</th>
+                            <th style="text-align:left;padding:8px">Saldo (Q)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6" style="text-align:right;font-weight:600;padding:8px">Saldo final:</td>
+                            <td id="saldoFinal" style="padding:8px">Q0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <script>
+            // === CARGA Y PINTA EL BALANCE ===
+            async function cargarBalance() {
+                const url = '@(Url.Action("ObtenerBalance", "ESTADODECUENTAs"))';
+                const tbody = document.querySelector('#tablaBalance tbody');
+                const saldoFinalEl = document.getElementById('saldoFinal');
+                try {
+                    const res = await fetch(url, { cache: 'no-store' });
+                    const text = await res.text();
+                    let data;
+                    try { data = JSON.parse(text); }
+                    catch {
+                    console.error('Respuesta no-JSON del servidor:\n', text);
+                    if (window.Swal) Swal.fire('Error', 'No se pudo obtener el balance (respuesta no válida).', 'error');
+                    return;
+                    }
+                    if (!Array.isArray(data)) {
+                        console.warn('Respuesta JSON:', data);
+                    if (data && data.success === false && window.Swal) {
+                        Swal.fire('Error', data.message || 'Error al obtener balance.', 'error');
+                    }
+                    return;
+             }
+
+            // Pintar filas
+            tbody.innerHTML = '';
+            let ultimoSaldo = 0;
+            data.forEach((m, idx) => {
+                ultimoSaldo = m.Saldo ?? 0;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td style="padding:8px">${idx + 1}</td>
+                <td style="padding:8px">${m.Fecha || ''}</td>
+                <td style="padding:8px">${m.Descripcion || ''}</td>
+                <td style="padding:8px">${m.Autorizacion ?? ''}</td>
+                <td style="padding:8px">Q${Number(m.Ingreso ?? 0).toFixed(2)}</td>
+                <td style="padding:8px">Q${Number(m.Egreso ?? 0).toFixed(2)}</td>
+                <td style="padding:8px">Q${Number(m.Saldo ?? 0).toFixed(2)}</td>
+        `       ;
+                tbody.appendChild(tr);
+            });
+            saldoFinalEl.textContent = 'Q' + Number(ultimoSaldo).toFixed(2);
+            console.log('Balance cargado:', data);
+            } catch (err) {
+            console.error('Fallo al obtener balance:', err);
+            if (window.Swal) Swal.fire('Error', 'No se pudo conectar con el servidor.\n' + err.message, 'error');
+            }
+            }
+            document.addEventListener('DOMContentLoaded', cargarBalance);
+            const btnBalance = document.getElementById('estadodecuenta');
+            if (btnBalance) btnBalance.addEventListener('click', () => setTimeout(cargarBalance, 50));
+            </script>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- script para funcionalidades de navegación de pestañas -->
+    <script>
+        // —— Menú móvil
+        const openMenu = document.querySelector("#open-menu");
+        const closeMenu = document.querySelector("#close-menu");
+        const aside = document.querySelector("aside");
+        const botonesCategorias = document.querySelectorAll(".boton-categoria");
+        if (openMenu && closeMenu && aside) {
+            openMenu.addEventListener("click", () => aside.classList.add("aside-visible"));
+            closeMenu.addEventListener("click", () => aside.classList.remove("aside-visible"));
+            botonesCategorias.forEach(boton =>
+                boton.addEventListener("click", () => aside.classList.remove("aside-visible"))
+            );
+        }
+        // —— Navegación de vistas
+        const btnInv = document.getElementById('inversiones');
+        const btnPrest = document.getElementById('prestamos');
+        const btnBal = document.getElementById('estadodecuenta');
+        const btnSalir = document.getElementById('cerrarsesion');
+        const viewInv = document.getElementById('view-inversiones');
+        const viewPrest = document.getElementById('view-prestamos');
+        const viewBal = document.getElementById('view-balance');
+        const allViews = [viewInv, viewPrest, viewBal];
+        const allButtons = [btnInv, btnPrest, btnBal];
+        function show(view) {
+            allViews.forEach(v => v.classList.add('hidden'));
+            view.classList.remove('hidden');
+        }
+        function setActive(btn) {
+            allButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        btnInv.addEventListener('click', () => { show(viewInv); setActive(btnInv); });
+        btnPrest.addEventListener('click', () => { show(viewPrest); setActive(btnPrest); });
+        btnBal.addEventListener('click', () => { show(viewBal); setActive(btnBal); });
+    </script>
+
+    <!-- script para funcionalidades de cerrar sesión -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const btnSalir = document.getElementById("cerrarsesion");
+    if (btnSalir) {
+        btnSalir.addEventListener("click", async function () {
+            const confirm = await Swal.fire({
+                title: "¿Desea cerrar sesión?",
+                text: "Se cerrará la sesión actual y volverás al inicio de sesión.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, salir",
+                cancelButtonText: "Cancelar"
+            });
+
+            if (confirm.isConfirmed) {
+                window.location.href = '@Url.Action("CerrarSesion", "USUARIOS")';
+            }
+        });
+    }
+    });
+    </script>
+
+    <!-- script para funcionalidad de préstamos -->
+    <script>
+    async function cargarPrestamos() {
+        try {
+            const res = await fetch('@Url.Action("Listar", "PRESTAMOS")');
+            const prestamos = await res.json();
+
+            const tbody = document.querySelector("#tablaPrestamos tbody");
+            tbody.innerHTML = "";
+
+            prestamos.forEach(p => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${p.IDPRESTAMO}</td>
+                    <td>${p.ENTIDADFINANCIERA}</td>
+                    <td>Q${parseFloat(p.MONTO).toFixed(2)}</td>
+                    <td>${p.PLAZOMESES}</td>
+                    <td>${p.TASAINTERES}%</td>
+                    <td>${p.FECHAINICIO.substring(0, 10)}</td>
+                    <td>${p.FECHAVENCIMIENTO.substring(0, 10)}</td>
+                    <td>Q${parseFloat(p.INTERESCALCULADO).toFixed(2)}</td>
+                    <td>${p.ESTADO}</td>
+
+                    <td class="acciones">
+                        <div class="btn-editar" title="Editar" data-id="${p.IDPRESTAMO}">
+                            <i class="bi bi-pencil-fill editar"></i>
+                        </div>
+                        <div class="btn-eliminar" title="Eliminar" data-id="${p.IDPRESTAMO}">
+                            <i class="bi bi-trash-fill eliminar"></i>
+                        </div>
+                        <div class="btn-proyeccion" title="Ver Proyección" data-id="${p.IDPRESTAMO}">
+                            <i class="bi bi-card-list proyeccion"></i>
+                        </div>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error al cargar préstamos:", err);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarPrestamos);
+
+    // Crear préstamo
+    document.getElementById("formPrestamo").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const fd = new FormData(this);
+
+        try {
+            const res = await fetch('@Url.Action("Crear", "PRESTAMOS")', {
+                method: "POST",
+                body: fd
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                Swal.fire("Éxito", data.message, "success");
+                this.reset();
+                cargarPrestamos();
+            } else {
+                Swal.fire("Error", data.message, "error");
+            }
+        } catch (err) {
+            Swal.fire("Error", "No se pudo conectar con el servidor.\n" + err.message, "error");
+        }
+    });
+
+    </script>
+
+    <!-- script para eliminar y editar préstamos y proyección -->
+    <script>
+document.addEventListener("click", async (e) => {
+
+    /* ============================
+       ✅ EDITAR PRÉSTAMO
+    ============================ */
+    if (e.target.classList.contains("editar")) {
+
+        const fila = e.target.closest("tr");
+
+        const id = fila.querySelector("td:nth-child(1)").textContent.trim();
+        const entidad = fila.querySelector("td:nth-child(2)").textContent.trim();
+
+        let monto = fila.querySelector("td:nth-child(3)").textContent.trim();
+        monto = monto.replace("Q", "").replace(",", "").trim();
+        monto = parseFloat(monto);
+
+        const plazo = parseInt(fila.querySelector("td:nth-child(4)").textContent.trim());
+        const tasa = parseFloat(fila.querySelector("td:nth-child(5)").textContent.trim().replace("%", ""));
+
+        let fecha = fila.querySelector("td:nth-child(6)").textContent.trim();
+        fecha = fecha.substring(0, 10);  // yyyy-mm-dd
+
+
+        // ✅ MODAL EDICIÓN
+        const { value: form } = await Swal.fire({
+            title: "Editar préstamo",
+            width: "650px",
+            html: `
+                <style>
+                    .row2 { display:flex; gap:16px; margin-bottom:8px }
+                    .col { flex:1; display:flex; flex-direction:column; font-size:13px }
+                    .col label { text-align:left; margin-bottom:3px; font-weight:500 }
+                    .col input, .col select { width:100%; padding:6px; font-size:13px }
+                </style>
+
+                <div class="row2">
+                    <div class="col">
+                        <label>Entidad Financiera:</label>
+                        <input id="sw_entidad" value="${entidad}">
+                    </div>
+                    <div class="col">
+                        <label>Monto (Q):</label>
+                        <input id="sw_monto" type="number" step="0.01" min="0" value="${monto}">
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="col">
+                        <label>Plazo (meses):</label>
+                        <input id="sw_plazo" type="number" min="1" value="${plazo}">
+                    </div>
+                    <div class="col">
+                        <label>Tipo de pago:</label>
+                        <select id="sw_tipo">
+                            <option value="Mensual">Mensual</option>
+                            <option value="Final">Final</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="col">
+                        <label>Tasa interés (%):</label>
+                        <input id="sw_tasa" type="number" step="0.01" min="0" value="${tasa}">
+                    </div>
+                    <div class="col">
+                        <label>Fecha inicio:</label>
+                        <input id="sw_fecha" type="date" value="${fecha}">
+                    </div>
+                </div>
+            `,
+            confirmButtonText: "Guardar",
+            focusConfirm: false,
+            preConfirm: () => {
+                const montoInput = document.getElementById("sw_monto").value;
+                const tasaInput = document.getElementById("sw_tasa").value;
+
+                const payload = new FormData();
+                payload.append("IDPRESTAMO", id);
+                payload.append("ENTIDADFINANCIERA", document.getElementById("sw_entidad").value.trim());
+                payload.append("MONTO", String(montoInput));
+                payload.append("PLAZOMESES", document.getElementById("sw_plazo").value);
+                payload.append("TIPODEPAGO", document.getElementById("sw_tipo").value);
+                payload.append("TASAINTERES", String(tasaInput));
+                payload.append("FECHAINICIO", document.getElementById("sw_fecha").value);
+
+                return payload;
+            }
+        });
+
+        if (!form) return;
+
+        const resp = await fetch("/PRESTAMOS/Editar", {
+            method: "POST",
+            body: form
+        });
+
+        const data = await resp.json();
+
+        if (data.success) {
+            Swal.fire("Éxito", data.message, "success")
+                .then(() => cargarPrestamos());
+        } else {
+            Swal.fire("Error", data.message, "error");
+        }
+    }
+
+
+    /* ============================
+       ✅ ELIMINAR PRÉSTAMO
+    ============================ */
+    if (e.target.classList.contains("eliminar")) {
+
+        const id = e.target.closest("[data-id]").getAttribute("data-id");
+
+        const confirm = await Swal.fire({
+            title: "¿Eliminar?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        const fd = new FormData();
+        fd.append("id", id);
+
+        const res = await fetch('@Url.Action("Eliminar", "PRESTAMOS")', {
+            method: "POST",
+            body: fd
+        });
+
+        const data = await res.json();
+        if (data.success) {
+            Swal.fire("Listo", data.message, "success")
+                .then(cargarPrestamos);
+        } else {
+            Swal.fire("Error", data.message, "error");
+        }
+    }
+
+
+    // === PROYECCIÓN ===
+    // === PROYECCIÓN ===
+    if (e.target.classList.contains("proyeccion")) {
+
+        const id = e.target.closest("[data-id]").getAttribute("data-id");
+
+        const resp = await fetch("/PRESTAMOS/GenerarProyeccion", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ idPrestamo: id })
+        });
+
+        const data = await resp.json();
+
+        if (!data.success) {
+            Swal.fire("Error", data.message, "error");
+            return;
+        }
+
+        const info = data.info;
+
+        const header = `
+        <div style="margin-bottom:12px; text-align:left;">
+            <b>Monto total:</b> Q${info.monto.toFixed(2)} <br>
+            <b>Tasa interés:</b> ${info.tasa}% <br>
+            <b>Plazo:</b> ${info.plazo} meses <br>
+            <b>Interés total:</b> Q${info.interesTotal.toFixed(2)} <br>
+            <b>Saldo pendiente:</b> Q${info.saldoPendiente.toFixed(2)}
+        </div>
+    `;
+
+        const filas = data.cuotas.map(c =>
+            `<tr>
+            <td>${c.cuota}</td>
+            <td>${c.fecha}</td>
+            <td>Q${c.capital.toFixed(2)}</td>
+            <td>Q${c.interes.toFixed(2)}</td>
+            <td>Q${c.total.toFixed(2)}</td>
+            <td>${c.estado}</td>
+            <td>
+   <input type="checkbox" class="toggle-cuota"
+       data-id="${c.cuota}" 
+       data-prestamo="${id}" 
+       ${c.estado === "Pagado" ? "checked" : ""}>
+</td>
+
+        </tr>`
+        ).join("");
+
+        Swal.fire({
+            title: "Proyección de pagos",
+            width: 850,
+            html: `
+            ${header}
+            <table border="1" style="width:100%;font-size:14px">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Capital</th>
+                        <th>Interés</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>${filas}</tbody>
+            </table>
+        `,
+            confirmButtonText: "Cerrar"
+        });
+    }
+
+
+    if (e.target.classList.contains("toggle-cuota")) {
+
+        const numeroCuota = e.target.getAttribute("data-id");
+        const idPrestamo = e.target.getAttribute("data-prestamo");
+        const nuevoEstado = e.target.checked ? "Pagado" : "Pendiente";
+
+        const resp = await fetch("/PRESTAMOS/MarcarCuotaPagada", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ idPrestamo, numeroCuota, estado: nuevoEstado })
+        });
+
+        const data = await resp.json();
+
+        if (!data.success) {
+            Swal.fire("Error", data.message, "error");
+            e.target.checked = !e.target.checked; // revertir si falló
+        } else {
+            // recargar proyección para actualizar saldo
+            document.querySelector(".swal2-confirm").click();
+            const btn = document.querySelector(`[data-id='${idPrestamo}'] .proyeccion`);
+            if (btn) btn.click();
+        }
+    }
+
+
+
+});
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+﻿@model ProyectoFinal2.Models.ESTADODECUENTA
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ESTADODECUENTA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FECHAMOVIMIENTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHAMOVIMIENTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TIPOMOVIMIENTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIPOMOVIMIENTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DESCRIPCION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESCRIPCION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MONTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MONTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.REFERENCIAID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.REFERENCIAID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SALDOACUMULADO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SALDOACUMULADO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDMOVIMIENTO }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

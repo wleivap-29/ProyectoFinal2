@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CLIENTES">
+          <Key>
+            <PropertyRef Name="IDCLIENTE" />
+          </Key>
+          <Property Name="IDCLIENTE" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRECOMPLETO" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="DPI" Type="varchar2" MaxLength="15" Nullable="false" />
+          <Property Name="TELEFONO" Type="varchar2" MaxLength="20" />
+          <Property Name="CORREO" Type="varchar2" MaxLength="100" />
+          <Property Name="DIRECCION" Type="varchar2" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="ESTADODECUENTA">
+          <Key>
+            <PropertyRef Name="IDMOVIMIENTO" />
+          </Key>
+          <Property Name="IDMOVIMIENTO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="FECHAMOVIMIENTO" Type="date" />
+          <Property Name="TIPOMOVIMIENTO" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar2" MaxLength="255" />
+          <Property Name="MONTO" Type="number" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="REFERENCIAID" Type="number" Precision="38" Scale="0" />
+          <Property Name="SALDOACUMULADO" Type="number" Precision="12" Scale="2" />
+        </EntityType>
+        <EntityType Name="INVERSIONES">
+          <Key>
+            <PropertyRef Name="IDINVERSION" />
+          </Key>
+          <Property Name="IDINVERSION" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="IDCLIENTE" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="MONTO" Type="number" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="PLAZOMESES" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="TIPODEPAGO" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="FECHAINICIO" Type="date" Nullable="false" />
+          <Property Name="FECHAVENCIMIENTO" Type="date" Nullable="false" />
+          <Property Name="INTERESESGANADOS" Type="number" Precision="12" Scale="2" />
+          <Property Name="ESTADO" Type="varchar2" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="PRESTAMOS">
+          <Key>
+            <PropertyRef Name="IDPRESTAMO" />
+          </Key>
+          <Property Name="IDPRESTAMO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ENTIDADFINANCIERA" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="MONTO" Type="number" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="PLAZOMESES" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="TIPODEPAGO" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="TASAINTERES" Type="number" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="FECHAINICIO" Type="date" Nullable="false" />
+          <Property Name="FECHAVENCIMIENTO" Type="date" Nullable="false" />
+          <Property Name="INTERESCALCULADO" Type="number" Precision="12" Scale="2" />
+          <Property Name="ESTADO" Type="varchar2" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="PROYECCIONPAGOS">
+          <Key>
+            <PropertyRef Name="IDPROYECCION" />
+          </Key>
+          <Property Name="IDPROYECCION" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IDPRESTAMO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NUMEROCUOTA" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="FECHAPAGO" Type="date" Nullable="false" />
+          <Property Name="MONTOPAGO" Type="number" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="ESTADOPAGO" Type="varchar2" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="IDUSUARIO" />
+          </Key>
+          <Property Name="IDUSUARIO" Type="number" Precision="38" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRECOMPLETO" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="USUARIO" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CONTRASENA" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_INVERSION_CLIENTE">
+          <End Role="CLIENTES" Type="Self.CLIENTES" Multiplicity="1" />
+          <End Role="INVERSIONES" Type="Self.INVERSIONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTES">
+              <PropertyRef Name="IDCLIENTE" />
+            </Principal>
+            <Dependent Role="INVERSIONES">
+              <PropertyRef Name="IDCLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECCION_PRESTAMO">
+          <End Role="PRESTAMOS" Type="Self.PRESTAMOS" Multiplicity="1" />
+          <End Role="PROYECCIONPAGOS" Type="Self.PROYECCIONPAGOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRESTAMOS">
+              <PropertyRef Name="IDPRESTAMO" />
+            </Principal>
+            <Dependent Role="PROYECCIONPAGOS">
+              <PropertyRef Name="IDPRESTAMO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="CLIENTES" EntityType="Self.CLIENTES" Schema="USRPROYECTO" store:Type="Tables" />
+          <EntitySet Name="ESTADODECUENTA" EntityType="Self.ESTADODECUENTA" Schema="USRPROYECTO" store:Type="Tables" />
+          <EntitySet Name="INVERSIONES" EntityType="Self.INVERSIONES" Schema="USRPROYECTO" store:Type="Tables" />
+          <EntitySet Name="PRESTAMOS" EntityType="Self.PRESTAMOS" Schema="USRPROYECTO" store:Type="Tables" />
+          <EntitySet Name="PROYECCIONPAGOS" EntityType="Self.PROYECCIONPAGOS" Schema="USRPROYECTO" store:Type="Tables" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="USRPROYECTO" store:Type="Tables" />
+          <AssociationSet Name="FK_INVERSION_CLIENTE" Association="Self.FK_INVERSION_CLIENTE">
+            <End Role="CLIENTES" EntitySet="CLIENTES" />
+            <End Role="INVERSIONES" EntitySet="INVERSIONES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECCION_PRESTAMO" Association="Self.FK_PROYECCION_PRESTAMO">
+            <End Role="PRESTAMOS" EntitySet="PRESTAMOS" />
+            <End Role="PROYECCIONPAGOS" EntitySet="PROYECCIONPAGOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CLIENTES">
+          <Key>
+            <PropertyRef Name="IDCLIENTE" />
+          </Key>
+          <Property Name="IDCLIENTE" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRECOMPLETO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DPI" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TELEFONO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="INVERSIONES" Relationship="Self.FK_INVERSION_CLIENTE" FromRole="CLIENTES" ToRole="INVERSIONES" />
+        </EntityType>
+        <EntityType Name="ESTADODECUENTA">
+          <Key>
+            <PropertyRef Name="IDMOVIMIENTO" />
+          </Key>
+          <Property Name="IDMOVIMIENTO" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="FECHAMOVIMIENTO" Type="DateTime" />
+          <Property Name="TIPOMOVIMIENTO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MONTO" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="REFERENCIAID" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="SALDOACUMULADO" Type="Decimal" Precision="12" Scale="2" />
+        </EntityType>
+        <EntityType Name="INVERSIONES">
+          <Key>
+            <PropertyRef Name="IDINVERSION" />
+          </Key>
+          <Property Name="IDINVERSION" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="IDCLIENTE" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="MONTO" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="PLAZOMESES" Type="Byte" Nullable="false" />
+          <Property Name="TIPODEPAGO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHAINICIO" Type="DateTime" Nullable="false" />
+          <Property Name="FECHAVENCIMIENTO" Type="DateTime" Nullable="false" />
+          <Property Name="INTERESESGANADOS" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="ESTADO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLIENTES" Relationship="Self.FK_INVERSION_CLIENTE" FromRole="INVERSIONES" ToRole="CLIENTES" />
+        </EntityType>
+        <EntityType Name="PRESTAMOS">
+          <Key>
+            <PropertyRef Name="IDPRESTAMO" />
+          </Key>
+          <Property Name="IDPRESTAMO" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ENTIDADFINANCIERA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MONTO" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="PLAZOMESES" Type="Byte" Nullable="false" />
+          <Property Name="TIPODEPAGO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TASAINTERES" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="FECHAINICIO" Type="DateTime" Nullable="false" />
+          <Property Name="FECHAVENCIMIENTO" Type="DateTime" Nullable="false" />
+          <Property Name="INTERESCALCULADO" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="ESTADO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PROYECCIONPAGOS" Relationship="Self.FK_PROYECCION_PRESTAMO" FromRole="PRESTAMOS" ToRole="PROYECCIONPAGOS" />
+        </EntityType>
+        <EntityType Name="PROYECCIONPAGOS">
+          <Key>
+            <PropertyRef Name="IDPROYECCION" />
+          </Key>
+          <Property Name="IDPROYECCION" Type="Decimal" Precision="38" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDPRESTAMO" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NUMEROCUOTA" Type="Byte" Nullable="false" />
+          <Property Name="FECHAPAGO" Type="DateTime" Nullable="false" />
+          <Property Name="MONTOPAGO" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="ESTADOPAGO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRESTAMOS" Relationship="Self.FK_PROYECCION_PRESTAMO" FromRole="PROYECCIONPAGOS" ToRole="PRESTAMOS" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="IDUSUARIO" />
+          </Key>
+          <Property Name="IDUSUARIO" Type="Decimal" Precision="38" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRECOMPLETO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="USUARIO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRASENA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_INVERSION_CLIENTE">
+          <End Role="CLIENTES" Type="Self.CLIENTES" Multiplicity="1" />
+          <End Role="INVERSIONES" Type="Self.INVERSIONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTES">
+              <PropertyRef Name="IDCLIENTE" />
+            </Principal>
+            <Dependent Role="INVERSIONES">
+              <PropertyRef Name="IDCLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROYECCION_PRESTAMO">
+          <End Role="PRESTAMOS" Type="Self.PRESTAMOS" Multiplicity="1" />
+          <End Role="PROYECCIONPAGOS" Type="Self.PROYECCIONPAGOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRESTAMOS">
+              <PropertyRef Name="IDPRESTAMO" />
+            </Principal>
+            <Dependent Role="PROYECCIONPAGOS">
+              <PropertyRef Name="IDPRESTAMO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CLIENTES" EntityType="Self.CLIENTES" />
+          <EntitySet Name="ESTADODECUENTA" EntityType="Self.ESTADODECUENTA" />
+          <EntitySet Name="INVERSIONES" EntityType="Self.INVERSIONES" />
+          <EntitySet Name="PRESTAMOS" EntityType="Self.PRESTAMOS" />
+          <EntitySet Name="PROYECCIONPAGOS" EntityType="Self.PROYECCIONPAGOS" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" />
+          <AssociationSet Name="FK_INVERSION_CLIENTE" Association="Self.FK_INVERSION_CLIENTE">
+            <End Role="CLIENTES" EntitySet="CLIENTES" />
+            <End Role="INVERSIONES" EntitySet="INVERSIONES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROYECCION_PRESTAMO" Association="Self.FK_PROYECCION_PRESTAMO">
+            <End Role="PRESTAMOS" EntitySet="PRESTAMOS" />
+            <End Role="PROYECCIONPAGOS" EntitySet="PROYECCIONPAGOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="CLIENTES">
+            <EntityTypeMapping TypeName="Model.CLIENTES">
+              <MappingFragment StoreEntitySet="CLIENTES">
+                <ScalarProperty Name="IDCLIENTE" ColumnName="IDCLIENTE" />
+                <ScalarProperty Name="NOMBRECOMPLETO" ColumnName="NOMBRECOMPLETO" />
+                <ScalarProperty Name="DPI" ColumnName="DPI" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADODECUENTA">
+            <EntityTypeMapping TypeName="Model.ESTADODECUENTA">
+              <MappingFragment StoreEntitySet="ESTADODECUENTA">
+                <ScalarProperty Name="IDMOVIMIENTO" ColumnName="IDMOVIMIENTO" />
+                <ScalarProperty Name="FECHAMOVIMIENTO" ColumnName="FECHAMOVIMIENTO" />
+                <ScalarProperty Name="TIPOMOVIMIENTO" ColumnName="TIPOMOVIMIENTO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="MONTO" ColumnName="MONTO" />
+                <ScalarProperty Name="REFERENCIAID" ColumnName="REFERENCIAID" />
+                <ScalarProperty Name="SALDOACUMULADO" ColumnName="SALDOACUMULADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INVERSIONES">
+            <EntityTypeMapping TypeName="Model.INVERSIONES">
+              <MappingFragment StoreEntitySet="INVERSIONES">
+                <ScalarProperty Name="IDINVERSION" ColumnName="IDINVERSION" />
+                <ScalarProperty Name="IDCLIENTE" ColumnName="IDCLIENTE" />
+                <ScalarProperty Name="MONTO" ColumnName="MONTO" />
+                <ScalarProperty Name="PLAZOMESES" ColumnName="PLAZOMESES" />
+                <ScalarProperty Name="TIPODEPAGO" ColumnName="TIPODEPAGO" />
+                <ScalarProperty Name="FECHAINICIO" ColumnName="FECHAINICIO" />
+                <ScalarProperty Name="FECHAVENCIMIENTO" ColumnName="FECHAVENCIMIENTO" />
+                <ScalarProperty Name="INTERESESGANADOS" ColumnName="INTERESESGANADOS" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRESTAMOS">
+            <EntityTypeMapping TypeName="Model.PRESTAMOS">
+              <MappingFragment StoreEntitySet="PRESTAMOS">
+                <ScalarProperty Name="IDPRESTAMO" ColumnName="IDPRESTAMO" />
+                <ScalarProperty Name="ENTIDADFINANCIERA" ColumnName="ENTIDADFINANCIERA" />
+                <ScalarProperty Name="MONTO" ColumnName="MONTO" />
+                <ScalarProperty Name="PLAZOMESES" ColumnName="PLAZOMESES" />
+                <ScalarProperty Name="TIPODEPAGO" ColumnName="TIPODEPAGO" />
+                <ScalarProperty Name="TASAINTERES" ColumnName="TASAINTERES" />
+                <ScalarProperty Name="FECHAINICIO" ColumnName="FECHAINICIO" />
+                <ScalarProperty Name="FECHAVENCIMIENTO" ColumnName="FECHAVENCIMIENTO" />
+                <ScalarProperty Name="INTERESCALCULADO" ColumnName="INTERESCALCULADO" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROYECCIONPAGOS">
+            <EntityTypeMapping TypeName="Model.PROYECCIONPAGOS">
+              <MappingFragment StoreEntitySet="PROYECCIONPAGOS">
+                <ScalarProperty Name="IDPROYECCION" ColumnName="IDPROYECCION" />
+                <ScalarProperty Name="IDPRESTAMO" ColumnName="IDPRESTAMO" />
+                <ScalarProperty Name="NUMEROCUOTA" ColumnName="NUMEROCUOTA" />
+                <ScalarProperty Name="FECHAPAGO" ColumnName="FECHAPAGO" />
+                <ScalarProperty Name="MONTOPAGO" ColumnName="MONTOPAGO" />
+                <ScalarProperty Name="ESTADOPAGO" ColumnName="ESTADOPAGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOS">
+            <EntityTypeMapping TypeName="Model.USUARIOS">
+              <MappingFragment StoreEntitySet="USUARIOS">
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="IDUSUARIO" ColumnName="IDUSUARIO" />
+                <ScalarProperty Name="NOMBRECOMPLETO" ColumnName="NOMBRECOMPLETO" />
+                <ScalarProperty Name="CONTRASENA" ColumnName="CONTRASENA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

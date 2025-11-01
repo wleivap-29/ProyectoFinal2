@@ -1,0 +1,90 @@
+﻿@model ProyectoFinal2.Models.PRESTAMOS
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PRESTAMOS</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ENTIDADFINANCIERA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ENTIDADFINANCIERA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MONTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MONTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PLAZOMESES)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PLAZOMESES)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TIPODEPAGO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIPODEPAGO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TASAINTERES)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TASAINTERES)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FECHAINICIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHAINICIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FECHAVENCIMIENTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHAVENCIMIENTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.INTERESCALCULADO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.INTERESCALCULADO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ESTADO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ESTADO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDPRESTAMO }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
